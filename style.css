@@ -44,13 +44,29 @@ input{
     border: 0;
     outline: 0;
 }
-#search{
-    background: transparent;
-    border: 0;
-    outline: 0;
-}
-button .fa-solid{
+.fa-magnifying-glass{
     width: 25px;
     color: #343a40;
     font-size: 21px;
+}
+#autocomplete{
+    display: grid;
+    align-items: center;
+}
+.search-list{
+    list-style: none;
+    padding: unset;
+    margin: unset;
+}
+.search-list li{
+    padding: 20px;
+    text-align: center;
+    background-color: #ced4da;
+    border: 1px solid #e9ecef;
+    border-radius: 20px;
+    border-top: unset;
+}
+.search-list button{
+    border: unset;
+    background: unset;
 }
