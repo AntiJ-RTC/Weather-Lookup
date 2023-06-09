@@ -1,5 +1,6 @@
 let search;
 let input;
+let currentTemp;
 let info;
 let autoComp;
 
@@ -8,16 +9,14 @@ window.addEventListener('load', function(){
     input = this.document.getElementById('input-box');
     search = this.document.getElementById('search');
     autoComp = this.document.getElementById('autocomplete');
+    currentTemp = this.document.getElementById('current-temp');
     input.addEventListener('keyup', searchCity);
-
 });
 
 async function searchCity(){
     clearDropdown();
 
     let cityList = [];
-    const apiKey ='72cf5f0ea187d5f8386c5cd9bc9f3e06';
-
     const cityName = document.querySelector('.search-box input').value;
     if (cityName.length === 0){
         return;
@@ -27,22 +26,31 @@ async function searchCity(){
     for (let i = 0; i < cityData.results.length; i++) {
         cityList.push(cityData.results[i]);        
     }
-    console.log(cityList);
     autocompleteDropdown(cityList);
+}
+
+async function loadWeather(city){
+    const apiKey ='72cf5f0ea187d5f8386c5cd9bc9f3e06';
+
+    console.log(city);
+
+    const lat = city.latitude;
+    const lon = city.longitude;
+    console.log(`${lat} ${lon}`)
+    const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
+    const weatherData = await weatherRes.json();
+    console.log(weatherData);
+
+    const forecastRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FLos_Angeles`);
+    const forecastData = await forecastRes.json();
+    console.log(forecastData);
+
+    let iconcode = weatherData.weather[0].icon;//
+    let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
 
 
-    // console.log(`${cityList[0].name}, ${cityList[0].admin1}, ${cityList[0].country}`);
-
-    // const lat = cityList[0].latitude;
-    // const lon = cityList[0].longitude;
-    // console.log(`${lat} ${lon}`)
-    // const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
-    // const weatherData = await weatherRes.json();
-    // console.log(weatherData);
-
-    // const forecastRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=America%2FLos_Angeles`);
-    // const forecastData = await forecastRes.json();
-    // console.log(forecastData);
+    currentTemp.innerHTML = `${weatherData.main.temp}°F, ${weatherData.weather[0].main} <img src="${iconurl}" alt="img">
+    `;
 }
 
 function autocompleteDropdown(list){
@@ -58,7 +66,8 @@ function autocompleteDropdown(list){
         cityButton.innerHTML = `${city.name}, ${city.admin1}, ${city.country}`;
         cityButton.addEventListener("click", function(evt){
             evt.preventDefault();
-            input.value = city.name;
+            input.value = `${city.name}, ${city.admin1}, ${city.country}`;
+            loadWeather(city);
             clearDropdown();
         });
         cityItem.appendChild(cityButton);
