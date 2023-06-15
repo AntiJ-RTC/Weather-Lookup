@@ -49,7 +49,7 @@ async function loadWeather(city){
     let iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
 
 
-    currentTemp.innerHTML = `${weatherData.main.temp}°F, ${weatherData.weather[0].main} <img src="${iconurl}" alt="img">
+    currentTemp.innerHTML = `${parseInt(weatherData.main.temp)}°F, ${weatherData.weather[0].main} <img src="${iconurl}" alt="img">
     `;
 }
 
