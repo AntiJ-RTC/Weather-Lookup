@@ -7,10 +7,10 @@
     box-sizing: border-box;
 }
 body{
-    background-color: #6c757d;
+    background-color: #495057;
     color: #e9ecef;
 }
-h2{
+.nav h2{
     margin: 20px;
     font-size: 32px;
 }
@@ -19,6 +19,13 @@ h2{
     font-size: 27px;
     margin: 20px;
     margin-top: 200px;
+    animation: fade-in 2s;
+}
+.city-title{
+    margin: 20px;
+    animation: fade-in 2s;
+}
+.details{
     animation: fade-in 2s;
 }
 @keyframes fade-in {
@@ -69,4 +76,59 @@ input{
 .search-list button{
     border: unset;
     background: unset;
+}
+.search-link {
+    color: #e9ecef;
+    text-align: center;
+    margin: 20px;
+}
+.search-link a{
+    color: #e9ecef;
+    font-size: 27px;;
+    text-decoration: none;
+}
+.mini-weather{
+    background-color: #6c757d;
+    padding: 20px;
+    margin: 20px auto 0;
+    border-radius: 20px;
+    width: 900px;
+}
+.mini-weather-2{
+    background-color: #6c757d;
+    padding: 20px;
+    margin: 20px auto 0;
+    border-radius: 20px;
+    width: 900px;
+}
+.mini-weather-details{
+    display: grid;
+    grid-template-columns: auto 99%;
+}
+.weather-icon{
+    display: inline-block;
+}
+.weather-info{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 20px;
+    font-size: 27px;
+}
+.forecast{
+    display: grid;
+    align-items: center;
+    margin: 20px auto 0;
+    gap: 20px;
+    width: 900px;
+    grid-template-columns: auto auto auto auto auto;
+    align-items: center;
+}
+.forecast-card{
+    display: flex;
+    background-color: #6c757d;
+    border-radius: 20px;
+    align-items: center;
+}
+.forecast-card p{
+    text-align: center;
 }
