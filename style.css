@@ -125,6 +125,7 @@ input{
 }
 .forecast-card{
     display: flex;
+    grid-template-columns: auto auto;
     background-color: #6c757d;
     border-radius: 20px;
     align-items: center;

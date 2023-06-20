@@ -4,6 +4,7 @@ let currentTemp;
 let info;
 let autoComp;
 
+
 window.addEventListener('load', function(){
     info = this.document.getElementById('info');
     input = this.document.getElementById('input-box');
@@ -11,6 +12,7 @@ window.addEventListener('load', function(){
     autoComp = this.document.getElementById('autocomplete');
     input.addEventListener('keyup', searchCity);
     loadWeather();
+    loadWeather2();
 });
 
 
@@ -30,7 +32,7 @@ async function searchCity(){
     autocompleteDropdown(cityList);
 }
 
-async function getWeather(city){
+async function getOtherWeather(city){
     const apiKey ='72cf5f0ea187d5f8386c5cd9bc9f3e06';
 
     console.log(city);
@@ -50,6 +52,36 @@ async function getWeather(city){
 }
 
 function loadWeather(){
+    const city = JSON.parse(localStorage.getItem('city'));
+    const weatherData = JSON.parse(localStorage.getItem('weather'));
+    const forecastData = JSON.parse(localStorage.getItem('forecast'));
+
+    console.log(weatherData);
+    console.log(forecastData);
+
+    let miniWeather = document.querySelector('.mini-weather');
+    console.log(miniWeather);
+
+    let cityName = miniWeather.querySelector('.city-title h1');
+    cityName.innerHTML = `${city.name}, ${city.admin1}, ${city.country}`;
+
+    const unixTime = weatherData.dt * 1000;
+    const unixToDate = new Date(unixTime).toLocaleString('en-US');
+    miniWeather.querySelector('.city-title h3').innerHTML = `Last Updated: ${unixToDate}`;
+
+    let weatherIcon = document.createElement('img')
+    weatherIcon.src = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+    let src = miniWeather.querySelector('.weather-icon');
+    src.appendChild(weatherIcon);
+    
+    miniWeather.querySelector('.current-temp').innerHTML = `${parseInt(weatherData.main.temp)}&deg;F`;
+    miniWeather.querySelector('.low-temp').innerHTML = `Low: ${parseInt(weatherData.main.temp_min)}&deg;F`;
+    miniWeather.querySelector('.high-temp').innerHTML = `High: ${parseInt(weatherData.main.temp_max)}&deg;F`;
+    miniWeather.querySelector('.weather-type').innerHTML = `${weatherData.weather[0].main}`;
+    miniWeather.querySelector('.humidity').innerHTML = `Humidity: ${weatherData.main.humidity}%`;
+    miniWeather.querySelector('.wind').innerHTML = `Wind: ${weatherData.wind.speed} mph`;
+}
+function loadWeather2(){
     window.addEventListener('keyup', function(evt){
         if(evt.key == "Enter"){
             this.window.location.href = "dual-forecast.html"
@@ -99,7 +131,7 @@ function autocompleteDropdown(list){
         cityButton.addEventListener("click", function(evt){
             evt.preventDefault();
             input.value = `${city.name}, ${city.admin1}, ${city.country}`;
-            getWeather(city);
+            getOtherWeather(city);
             clearDropdown();
         });
         cityItem.appendChild(cityButton);

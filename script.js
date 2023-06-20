@@ -63,6 +63,7 @@ function loadWeather(){
     console.log(forecastData);
 
     let miniWeather = document.querySelector('.mini-weather');
+    let forecast = document.querySelectorAll('.forecast-card');
 
     let cityName = miniWeather.querySelector('.city-title h1');
     cityName.innerHTML = `${city.name}, ${city.admin1}, ${city.country}`;
@@ -71,7 +72,7 @@ function loadWeather(){
     const unixToDate = new Date(unixTime).toLocaleString('en-US');
     miniWeather.querySelector('.city-title h3').innerHTML = `Last Updated: ${unixToDate}`
 
-    let weatherIcon = document.createElement('img')
+    let weatherIcon = document.createElement('img');
     weatherIcon.src = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
     let src = miniWeather.querySelector('.weather-icon');
     src.appendChild(weatherIcon);
@@ -82,7 +83,7 @@ function loadWeather(){
     miniWeather.querySelector('.weather-type').innerHTML = `${weatherData.weather[0].main}`;
     miniWeather.querySelector('.humidity').innerHTML = `Humidity: ${weatherData.main.humidity}%`;
     miniWeather.querySelector('.wind').innerHTML = `Wind: ${weatherData.wind.speed} mph`;
-    
+
 }
 
 function autocompleteDropdown(list){
